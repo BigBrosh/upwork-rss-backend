@@ -1,13 +1,16 @@
+import cors from "cors";
 import express from 'express';
 import router from "./routes";
 import runCronJobs from "./libs/cron";
 import { initMongoose } from './libs/mongoose';
 import authCheck from "./middleware/authCheck";
 import errorHandler from "./middleware/errorHandler";
+import { corsWhitelist } from "./configs";
 require('dotenv').config();
 
 const app = express();
 
+app.use(cors({ whitelist: corsWhitelist }));
 app.use(authCheck);
 app.use('/', router);
 app.use(errorHandler);
